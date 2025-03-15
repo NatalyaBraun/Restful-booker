@@ -5,6 +5,7 @@ import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import io.restassured.response.ResponseBodyExtractionOptions;
 
 import java.util.List;
 
@@ -42,4 +43,15 @@ public class BookingApi extends BaseApi {
                 .filters(List.of(new RequestLoggingFilter(), new ResponseLoggingFilter()))
                 .delete(apiUrl + id);
     }
+
+    public static Response putBooking(Booking newPayload, int id, String tokenValue) {
+        return given()
+                .header("Cookie", "token=" + tokenValue)
+                .contentType(ContentType.JSON)
+                .body(newPayload)
+                .when()
+                .filters(List.of(new RequestLoggingFilter(), new ResponseLoggingFilter()))
+                .put(apiUrl + id);
+    }
+
 }
